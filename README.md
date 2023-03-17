@@ -132,7 +132,7 @@ OUTPUT
 ```
 The output data 
 
-Solution to given log without Tag HTML like this :
+Solution to given without Object Tag { } like this :
 ---
 Add Stream Logic on **POST**
 ```
@@ -149,4 +149,36 @@ request.on('body',()=>{
 Output
 ```
 <h1>Hai, Dicoding!</h1>
+```
+Routing Request
+--
+-   Remove a Stream Logic
+-   Add Routing Request
+---
+```
+if (url === '/') {
+    if (method === 'GET') {
+        response.end('<h1>Ini adalah homepage</h1>');
+    } else {
+        response.end(`<h1>Halaman tidak dapat diakses dengan ${method} request</h1>`);
+    }
+} else if (url === '/about') {
+    if (method === 'GET') {
+        response.end('<h1>Halo! Ini adalah halaman about</h1>')
+    } else if (method === 'POST') {
+        let body = [];
+        request.on('data', (chunk) => {
+            body.push(chunk);
+        });
+        request.on('end', () => {
+            body = Buffer.concat(body).toString();
+            const { name } = JSON.parse(body);
+            response.end(`<h1>Halo, ${name}! Ini adalah halaman about</h1>`);
+        });
+    } else {
+        response.end(`<h1>Halaman tidak dapat diakses menggunakan ${method} request</h1>`);
+    }
+} else {
+    response.end('<h1>Halaman tidak ditemukan!</h1>');
+}
 ```
