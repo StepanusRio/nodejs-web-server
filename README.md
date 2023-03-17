@@ -54,3 +54,58 @@ check the server is running using
 ```
 curl -X GET http://localhost:5000
 ```
+Handling Request
+--
+On requestListener Add logical method to handle the request from client
+request method is:
+-   GET
+-   POST
+-   PUT
+-   DELETE
+---
+you can add this logical.
+---
+Before :
+```
+const requestListener = (request,response)=>{
+    response.setHeader('Content-Type','text/html');
+    response.statusCode=200;
+    response.end('<h1>Hallo Server Http</h1>')
+}
+```
+After:
+```
+const requestListener = (request,response)=>{
+    response.setHeader('Content-Type','text/html');
+    response.statusCode=200;
+    const {method} = request;
+    if(method == 'GET'){
+        response.end('<h1>Hello!</h1>')
+    }
+    if(method === 'POST') {
+        response.end('<h1>Hai!</h1>');
+    }
+    if(method === 'PUT') {
+        response.end('<h1>Bonjour!</h1>');
+    }
+    if(method === 'DELETE') {
+        response.end('<h1>Salam!</h1>');
+    }
+};
+```
+Check on Terminal
+```
+curl -X GET http://localhost:5000
+// output: <h1>Hello!</h1>
+curl -X POST http://localhost:5000
+// output: <h1>Hai!</h1>
+curl -X PUT http://localhost:5000
+// output: <h1>Bonjour!</h1>
+curl -X DELETE http://localhost:5000
+// output: <h1>Salam!</h1>
+```
+**Note:** If you **change** the **server.js** you must restart the server
+```
+CTRL+C 
+npm run start
+```
