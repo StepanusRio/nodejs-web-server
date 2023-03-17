@@ -222,3 +222,11 @@ if (url === '/') {
     response.end('<h1>Halaman tidak ditemukan!</h1>');
 }
 ```
+Change Data on Body Response to JSON
+--
+To Change data to JSON you can use Syntax like this
+```
+response.end(JSON.stringify({
+    massage:'Halaman tidak dapat ditemukan'
+}))
+```
