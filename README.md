@@ -109,3 +109,44 @@ curl -X DELETE http://localhost:5000
 CTRL+C 
 npm run start
 ```
+**How to get Body Request**
+--
+Add Stream Logic on **POST**
+```
+let body = [];
+request.on('data',(chunk)=>{
+    body.push(chunk);
+});
+request.on('body',()=>{
+    body = Buffer.concat(body).toString();
+    response.end(`<h1>Hai, ${body}!</h1>`);
+});
+```
+Check the Output
+```
+curl -X POST -H "Content-Type: application/json" http://localhost:5000 -d "{\"name\": \"Dicoding\"}"
+```
+OUTPUT
+```
+<h1>Hai, {"name": "Dicoding"}!</h1>
+```
+The output data 
+
+Solution to given log without Tag HTML like this :
+---
+Add Stream Logic on **POST**
+```
+let body = [];
+request.on('data',(chunk)=>{
+    body.push(chunk);
+});
+request.on('body',()=>{
+    body = Buffer.concat(body).toString();
+    const {name} = JSON.parse(body);
+    response.end(`<h1>Hai, ${body}!</h1>`);
+});
+```
+Output
+```
+<h1>Hai, Dicoding!</h1>
+```
